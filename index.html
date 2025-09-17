@@ -7,6 +7,7 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
     <style>
+        /* جميع أنماط CSS السابقة تبقى كما هي */
         * {
             margin: 0;
             padding: 0;
@@ -717,6 +718,27 @@
             border-radius: inherit;
         }
 
+        /* Toast notification */
+        .toast {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            background: var(--gradient);
+            color: white;
+            padding: 1rem 2rem;
+            border-radius: 8px;
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
+            z-index: 1000;
+            opacity: 0;
+            transform: translateY(100px);
+            transition: all 0.5s ease;
+        }
+
+        .toast.show {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
         @media (max-width: 968px) {
             .hero {
                 flex-direction: column;
@@ -820,7 +842,7 @@
             </div>
             <div class="hero-image">
                 <div class="image-container">
-                    <img src="youbi.jpg" alt="Profile Photo" class="profile-img">
+                    <img src="ayob.jpg" alt="Profile Photo" class="profile-img">
                 </div>
             </div>
         </section>
@@ -854,7 +876,7 @@
                     </div>
                 </div>
                 <div class="about-image">
-                    <img src="IMG-20250426-WA0051.jpg" alt="Lamp Image" class="profile-img">
+                    <img src="tt.jpg" alt="Lamp Image" class="profile-img">
                 </div>
             </div>
         </section>
@@ -945,7 +967,7 @@
                         <i class="fas fa-paint-brush"></i>
                     </div>
                     <div class="portfolio-content">
-                        <h3>Brand Identity</h3>
+                        <h3>Designe</h3>
                         <p>Complete brand identity design for a tech startup including logo, colors, and guidelines.</p>
                         <div class="portfolio-tags">
                             <span class="tag">Branding</span>
@@ -1003,22 +1025,29 @@
                     </div>
                 </div>
                 <div class="contact-form">
-                    <form id="contactForm">
+                    <!-- تم تغيير النموذج لاستخدام FormSubmit لإرسال الرسائل -->
+                    <form action="https://formsubmit.co/ayoubbizgaren46@gmail.com" method="POST" id="contactForm">
+                        <!-- إعدادات FormSubmit -->
+                        <input type="hidden" name="_subject" value="New contact form submission from your portfolio">
+                        <input type="hidden" name="_template" value="table">
+                        <input type="hidden" name="_next" value="https://yourdomain.com/thank-you.html">
+                        <input type="hidden" name="_captcha" value="false">
+                        
                         <div class="form-group">
                             <label for="name">Your Name</label>
-                            <input type="text" id="name" class="form-control" placeholder="Enter your name" required>
+                            <input type="text" id="name" name="name" class="form-control" placeholder="Enter your name" required>
                         </div>
                         <div class="form-group">
                             <label for="email">Email Address</label>
-                            <input type="email" id="email" class="form-control" placeholder="Enter your email" required>
+                            <input type="email" id="email" name="email" class="form-control" placeholder="Enter your email" required>
                         </div>
                         <div class="form-group">
                             <label for="subject">Subject</label>
-                            <input type="text" id="subject" class="form-control" placeholder="What is this regarding?">
+                            <input type="text" id="subject" name="_subject" class="form-control" placeholder="What is this regarding?">
                         </div>
                         <div class="form-group">
                             <label for="message">Your Message</label>
-                            <textarea id="message" class="form-control" placeholder="Tell me about your project..." required></textarea>
+                            <textarea id="message" name="message" class="form-control" placeholder="Tell me about your project..." required></textarea>
                         </div>
                         <button type="submit" class="submit-btn">
                             <i class="fas fa-paper-plane"></i> Send Message
@@ -1030,14 +1059,17 @@
 
         <footer>
             <div class="social-links">
-                <a href="#"><i class="fab fa-dribbble"></i></a>
-                <a href="#"><i class="fab fa-behance"></i></a>
-                <a href="#"><i class="fab fa-linkedin-in"></i></a>
-                <a href="#"><i class="fab fa-github"></i></a>
+                <a href="https://www.facebook.com/profile.php?id=100084918376642" target="_blank"><i class="fab fa-facebook-f"></i></a>
+                <a href="https://www.instagram.com/vxx_vyoub87?igsh=MXNmeDI1MnJwYjc4bg==" target="_blank"><i class="fab fa-instagram"></i></a>
+                <a href="https://wa.me/212694025525" target="_blank"><i class="fab fa-whatsapp"></i></a>
+                <a href="mailto:ayoubbizgaren46@gmail.com"><i class="far fa-envelope"></i></a>
             </div>
             <p>© 2025 Ayuup Design | Welcoooooom</p>
         </footer>
     </div>
+
+    <!-- Toast notification element -->
+    <div class="toast" id="toast"></div>
 
     <script>
         // Add scroll animations
@@ -1076,24 +1108,27 @@
                 });
             });
 
+            // Show toast notification
+            function showToast(message) {
+                const toast = document.getElementById('toast');
+                toast.textContent = message;
+                toast.classList.add('show');
+                
+                setTimeout(() => {
+                    toast.classList.remove('show');
+                }, 3000);
+            }
+
             // Contact form submission
             const contactForm = document.getElementById('contactForm');
             if (contactForm) {
                 contactForm.addEventListener('submit', function(e) {
-                    e.preventDefault();
-                    
-                    // Get form values
+                    // إظهار رسالة تأكيد للمستخدم
                     const name = document.getElementById('name').value;
-                    const email = document.getElementById('email').value;
-                    const subject = document.getElementById('subject').value;
-                    const message = document.getElementById('message').value;
+                    showToast(`Thank you for your message, ${name}! I'll get back to you soon.`);
                     
-                    // Here you would normally send the form data to a server
-                    // For this example, we'll just show an alert
-                    alert(`Thank you for your message, ${name}! I'll get back to you soon at ${email}.`);
-                    
-                    // Reset the form
-                    contactForm.reset();
+                    // سيتم إرسال النموذج إلى FormSubmit الذي سيرسله إلى بريدك الإلكتروني
+                    // لا داعي لمنع السلوك الافتراضي لأننا نريد أن يتابع FormSubmit عملية الإرسال
                 });
             }
         });
